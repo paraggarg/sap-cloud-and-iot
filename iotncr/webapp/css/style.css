@@ -1,0 +1,21 @@
+/* Enter your custom styles here */
+.iotncrParent {
+	height: 500px;
+    width: 250px;
+    display: table;
+}
+
+.iotncrChild {
+	    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: x-large;
+}
+
+.iotncrClear {
+	background: #92c892;
+}
+
+.iotncrIntrusion {
+	background: #c59191;
+}

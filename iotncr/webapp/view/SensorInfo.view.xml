@@ -1,0 +1,70 @@
+<mvc:View controllerName="sap.iot.ncr.controller.SensorInfo" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" xmlns:m="sap.m" xmlns="sap.uxap" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data">
+	<m:App>
+		<m:pages>
+			<m:Page showHeader="false">
+				<m:content>
+					<ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="false" showTitleInHeaderContent="true">
+						<headerTitle>
+							<ObjectPageHeader objectImageURI="images/building7A.jpg" objectTitle="Building 7A - Lobby" objectImageShape="Circle"
+								objectSubtitle="Entrance Status" isObjectIconAlwaysVisible="false" isObjectTitleAlwaysVisible="false" isObjectSubtitleAlwaysVisible="false">
+								<breadCrumbsLinks>
+									<m:Link text="SAP Building Security"/>
+									<m:Link text="Building 7A"/>
+								</breadCrumbsLinks>
+							</ObjectPageHeader>
+						</headerTitle>
+						<sections>
+							<ObjectPageSection title="Sensor Details">
+								<subSections>
+									<ObjectPageSubSection title=" ">
+										<blocks>
+											<l:Grid hSpacing="2" defaultSpan="L6 M6 S12">
+												<l:content>
+													<l:HorizontalLayout>
+														<l:content>
+															<core:HTML visible="{= !${sensordata>/intrusion}}" id="clearDisplay"
+																content="&lt;div class=&quot;iotncrParent iotncrClear&quot;&gt;&lt;div class=&quot;iotncrChild&quot;&gt;Clear Entrance &lt;/div&gt;&lt;/div&gt;"/>
+															<core:HTML visible="{sensordata>/intrusion}" id="intrusionDisplay"
+																content="&lt;div class=&quot;iotncrParent iotncrIntrusion&quot;&gt;&lt;div class=&quot;iotncrChild&quot;&gt;Intrusion Detected&lt;/div&gt;&lt;/div&gt;"/>
+														</l:content>
+														<l:layoutData>
+															<l:GridData span="L3 M3 S12"/>
+														</l:layoutData>
+													</l:HorizontalLayout>
+													<viz:Popover id="idPopOver"></viz:Popover>
+													<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height="500px" width="100%" vizType="line"
+														vizProperties="{plotArea : { dataLabel : {visible : true}}, legend : { title: {visible : false} }, title: { visible: true, text: 'Entrance Intrusion Trend' }}">
+														<viz:dataset>
+															<viz.data:FlattenedDataset data="{ path : 'sensordata>/SensorDetail'}">
+																<viz.data:dimensions>
+																	<viz.data:DimensionDefinition name="Time"
+																		value="{path : 'sensordata>G_CREATED', type : 'sap.ui.model.type.DateTime', formatOptions : {style:'short'}}"/>
+																</viz.data:dimensions>
+																<viz.data:measures>
+																	<viz.data:MeasureDefinition name="Intrusion" value="{sensordata>C_ISPASSED}"/>
+																</viz.data:measures>
+															</viz.data:FlattenedDataset>
+														</viz:dataset>
+														<viz:feeds>
+															<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Intrusion"/>
+															<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Time"/>
+														</viz:feeds>
+														<viz:layoutData>
+															<l:GridData span="L9 M9 S12"/>
+														</viz:layoutData>
+													</viz:VizFrame>
+												</l:content>
+											</l:Grid>
+										</blocks>
+									</ObjectPageSubSection>
+								</subSections>
+							</ObjectPageSection>
+						</sections>
+					</ObjectPageLayout>
+				</m:content>
+			</m:Page>
+		</m:pages>
+	</m:App>
+</mvc:View>
